@@ -18,6 +18,6 @@ In fact, the ToString() operation is nothing more but a computation that is perf
 In general, every effect abstracts certain logic behind its computation.
 
 There are three monadic effects that are provided by std.
-- Maybe
+- [Maybe](maybe.md)
 - Try
 - Future
