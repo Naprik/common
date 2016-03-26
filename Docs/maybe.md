@@ -48,6 +48,6 @@ var s = from john in repository.Find("John")
 if (s.HasValue())
   Console.WriteLine("John's salary = " + s.John + ", whereas Marie's salary = " + s.Mary)
 else
-    Console.WriteLine("There are no John and Mary in the database")
+  Console.WriteLine("There are no John and Mary in the database")
 
 ```
