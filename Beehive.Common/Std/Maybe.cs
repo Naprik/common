@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Beehive.Properties;
 
 namespace Beehive.Std
@@ -70,22 +72,24 @@ namespace Beehive.Std
 
     public static class MaybeExtensions
     {
-        public static Maybe<TOut> Map<TVal, TOut>(this Maybe<TVal> ctx, Func<TVal, TOut> map) => ctx.FlatMap(_ => ApplyTo(map(_)));
+        public static bool HasValue<TVal>(this Maybe<TVal> ctx) => !ctx.IsEmpty;
+
+        public static bool IsEmpty<TVal>(this Maybe<TVal> ctx) => ctx.IsEmpty;
+
+        public static Maybe<TOut> Map<TVal, TOut>(this Maybe<TVal> ctx, Func<TVal, TOut> map) 
+            => ctx.FlatMap(_ => ApplyTo(map(_)));
 
         public static TValue GetValue<TValue>(this Maybe<TValue> ctx) => GetValueOr(ctx, () =>
         {
             throw new NoneException(Resources.Exc_NoneExtraction);
         });
 
-        public static TValue GetValueOr<TValue>(this Maybe<TValue> ctx, Func<TValue> fallback)
-        {
-            Check.ForNullReference(ctx, "ctx");
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+        public static TValue GetValueOr<TValue>(this Maybe<TValue> ctx, Func<TValue> fallback) 
+            => ctx.IsEmpty ? fallback() : (ctx as Some<TValue>).Value;
 
-            if (ctx.IsEmpty)
-                return fallback();
-
-            return ((Some<TValue>) ctx).Value;
-        }
+        public static TValue GetValueOr<TValue>(this Maybe<TValue> ctx, TValue fallback)
+            => GetValueOr(ctx, () => fallback);
 
         public static Maybe<TResult> Select<T, TResult>(this Maybe<T> ctx, Func<T, TResult> func)
             => ctx.Map(func);
