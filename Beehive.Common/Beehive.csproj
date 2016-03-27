@@ -42,7 +42,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Std\Concurrent\Executors\SynchronousExecutor.cs" />
+    <Compile Include="Std\Concurrent\FutureAwaiter.cs" />
+    <Compile Include="Std\Concurrent\IRunnable.cs" />
+    <Compile Include="Std\Executor.cs" />
+    <Compile Include="Std\Future.cs" />
+    <Compile Include="Std\ExecutionContexts.cs" />
     <Compile Include="Std\Maybe.cs" />
+    <Compile Include="Std\Promise.cs" />
     <Compile Include="Std\Try.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +58,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
