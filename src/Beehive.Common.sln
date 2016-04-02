@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2C9E156A-559E-42CA-8953-676DF6872FB5}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.config = .nuget\NuGet.config
+		.nuget\nuget.exe = .nuget\nuget.exe
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "main", "main", "{ADDB7F98-D9AE-492D-9393-163071B4DD6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{30E145D2-8724-4ABF-B8F8-13700356258F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beehive.Common.Tests", "test\Beehive.Common.Tests\Beehive.Common.Tests.csproj", "{79E554D9-9D5A-4EE3-B115-70582608997B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beehive.Common", "main\Beehive.Common\Beehive.Common.csproj", "{7513DC6E-2D93-4B6B-9892-38EA13F4DD08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79E554D9-9D5A-4EE3-B115-70582608997B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E554D9-9D5A-4EE3-B115-70582608997B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E554D9-9D5A-4EE3-B115-70582608997B}.Release|Any CPU.ActiveCfg = Production|Any CPU
+		{79E554D9-9D5A-4EE3-B115-70582608997B}.Release|Any CPU.Build.0 = Production|Any CPU
+		{7513DC6E-2D93-4B6B-9892-38EA13F4DD08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7513DC6E-2D93-4B6B-9892-38EA13F4DD08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7513DC6E-2D93-4B6B-9892-38EA13F4DD08}.Release|Any CPU.ActiveCfg = Production|Any CPU
+		{7513DC6E-2D93-4B6B-9892-38EA13F4DD08}.Release|Any CPU.Build.0 = Production|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79E554D9-9D5A-4EE3-B115-70582608997B} = {30E145D2-8724-4ABF-B8F8-13700356258F}
+		{7513DC6E-2D93-4B6B-9892-38EA13F4DD08} = {ADDB7F98-D9AE-492D-9393-163071B4DD6C}
+	EndGlobalSection
+EndGlobal
