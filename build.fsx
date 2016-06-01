@@ -130,7 +130,7 @@ Target "Generate Solution Info" (fun _ ->
          Attribute.FileVersion version
          Attribute.Product "Beehive"
          Attribute.Company "Beehive LLC"
-         Attribute.Copyright "Copyright © Beehive LLC 2016. Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law."
+         Attribute.Copyright "Copyright Â© Beehive LLC 2016. Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law."
          Attribute.Trademark "Beeh1ve is a registered trademark of Beeh1ve LLC."
          Attribute.Configuration (capitalize configDir)
          Attribute.CLSCompliant true
@@ -165,6 +165,21 @@ Target "Run FxCop" (fun () ->
               IgnoreGeneratedCode = true
               UseGACSwitch = true
               ToolPath = fxCopPath})
+)
+
+Target "CreatePackage" (fun _ ->
+    NuGet (fun p -> 
+        {p with
+            Authors = authors
+            Project = projectName
+            Description = projectDescription
+            OutputPath = packagingRoot
+            Summary = projectSummary
+            WorkingDir = packagingDir
+            Version = releaseNotes.AssemblyVersion
+            ReleaseNotes = toLines releaseNotes.Notes
+            AccessKey = getBuildParamOrDefault "nugetkey" ""
+            Publish = hasBuildParam "nugetkey" }) "template.nuspec"
 )
 
 // chains
