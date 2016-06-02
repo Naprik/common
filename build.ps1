@@ -12,15 +12,15 @@ if(!(Test-Path -Path $fxcopbuildtools )){
 }
 
 if(!(Test-Path -Path $faketools )){
-	Write-Output "FAKE is not detected thus installing..."
+    Write-Output "FAKE is not detected thus installing..."
     & "tools\nuget\nuget.exe" "install" "FAKE" "-OutputDirectory" "tools" "-ExcludeVersion" "-source" "https://www.nuget.org/api/v2;https://api.nuget.org/v3/index.json"
 }
 
 if(Test-Path -Path $faketools ){
-	Write-Output "Running FAKE..."
-	Write-Output "Started: $timestamp"
-	Write-Output "Configuration: $($args[0])"
-	Write-Output "BuildVersion: $($args[1])"
+    Write-Output "Running FAKE..."
+    Write-Output "Started: $timestamp"
+    Write-Output "Configuration: $($args[0])"
+    Write-Output "BuildVersion: $($args[1])"
     & "tools\FAKE\tools\Fake.exe" build.fsx configuration=$($args[0]) version=$($args[1])
-	exit $LastExitCode
+    exit $LastExitCode
 }

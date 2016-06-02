@@ -12,6 +12,7 @@ let buildDir = @".\build\"
 let srcDir = @".\src\"
 let installerDir = @".\src\install\"
 let installerOutputDir = @".\build\install\"
+let packagingRoot = @".\packaging\"
 let configDir = getBuildParamOrDefault "configuration" "debug"
 let testDir = @".\tests\"
 let testResultsDir = @".\test-results\"
@@ -26,6 +27,21 @@ let solutionDir = Path.Combine(Environment.CurrentDirectory, "src")
 let libsOutputPath = (buildDir + @"libs\" + configDir)
 let appsOutputPath = @".\build\apps\" + configDir
 let azurePackageOutputPath = (buildDir + @"azure\" + configDir)
+
+let releaseNotes = 
+    ReadFile @".\ReleaseNotes.md"
+    |> ReleaseNotesHelper.parseReleaseNotes
+
+let projectName = "Beehive.Common"
+let projectDescription = projectName
+let projectSummary = projectName
+let authors = "Beehive LLC"
+let copyright = "Copyright © Beehive LLC 2016. Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law."
+let trademark = "Beeh1ve is a registered trademark of Beeh1ve LLC."
+let nugetPublishUrl = "https://api.bintray.com/nuget/impulso/beeh1ve"
+let nugetAccessKey = "dd95300c6033af0e5de0bf27276f59106d03b569"
+let nugetPublishRequire = true
+
 // tools
 let nunitPath = @"./tools/NUnit.Runners.Net4/tools"
 let fxCopPath = @"./tools/FxCop.BuildTools/tools/FxCop/FxCopCmd.exe"
@@ -128,10 +144,10 @@ Target "Generate Solution Info" (fun _ ->
      CreateCSharpAssemblyInfo @".\src\SharedSolutionInfo\SolutionInfo.cs"
         [Attribute.Version version
          Attribute.FileVersion version
-         Attribute.Product "Beehive"
-         Attribute.Company "Beehive LLC"
-         Attribute.Copyright "Copyright © Beehive LLC 2016. Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law."
-         Attribute.Trademark "Beeh1ve is a registered trademark of Beeh1ve LLC."
+         Attribute.Product projectName
+         Attribute.Company authors
+         Attribute.Copyright copyright
+         Attribute.Trademark trademark
          Attribute.Configuration (capitalize configDir)
          Attribute.CLSCompliant true
          Attribute.ComVisible false
@@ -160,7 +176,7 @@ Target "Run FxCop" (fun () ->
     !! (libsOutputPath + @"\**\Beehive.*.dll")      
     |> FxCop 
         (fun p -> 
-            {p with                             
+            {p with
               ReportFileName = fxCopResultsDir + "FXCopResults.xml"
               IgnoreGeneratedCode = true
               UseGACSwitch = true
@@ -168,27 +184,40 @@ Target "Run FxCop" (fun () ->
 )
 
 Target "CreatePackage" (fun _ ->
-    NuGet (fun p -> 
+    CleanDir packagingRoot
+
+    let nugetContent = packagingRoot @@ @"beehive\lib\"
+
+    CleanDirs [packagingRoot; nugetContent]
+
+    CopyFile nugetContent (libsOutputPath @@ "Beehive.Common.dll")
+    CopyFile nugetContent (libsOutputPath @@ "Beehive.Common.pdb")
+
+
+    NuGet (fun p ->
         {p with
-            Authors = authors
+            Authors = [authors]
             Project = projectName
             Description = projectDescription
             OutputPath = packagingRoot
             Summary = projectSummary
-            WorkingDir = packagingDir
-            Version = releaseNotes.AssemblyVersion
+            Copyright = copyright
+            WorkingDir = nugetContent
+            Version = version
             ReleaseNotes = toLines releaseNotes.Notes
-            AccessKey = getBuildParamOrDefault "nugetkey" ""
-            Publish = hasBuildParam "nugetkey" }) "template.nuspec"
+            PublishUrl = nugetPublishUrl
+            AccessKey = nugetAccessKey
+            Publish = nugetPublishRequire }) "template.nuspec"
 )
 
 // chains
 "Clean"
     ==> "Restore Packages"
     ==> "Generate Solution Info"
-    ==> "Compile Libs"    
-    ==> "Run FxCop"   
+    ==> "Compile Libs"
+    ==> "Run FxCop"
     ==> "Compile Tests"
-    ==> "Run Tests"     
+    ==> "Run Tests"
+    ==> "CreatePackage"
 
-Run "Run Tests"
+Run "CreatePackage"

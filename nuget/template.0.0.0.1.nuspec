@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
+  <id>Beehive</id>
+  <version>0.0.0.1</version>
+  <authors>Beehive LLC</authors>
+  <owners>Beehive LLC</owners>
+  <summary>Beehive</summary>
+  <licenseUrl>https://github.com/beeh1ve/common/blob/master/Docs/readme.md</licenseUrl>
+  <projectUrl>https://github.com/beeh1ve/</projectUrl>
+  <iconUrl>https://avatars0.githubusercontent.com/u/17904489</iconUrl>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  <description>Beehive</description>
+  <releaseNotes>Features**
+- Add fsx file`</releaseNotes>
+  <copyright>@Copyright@</copyright>    
+  <tags></tags>
+  <dependencies></dependencies>
+  <references></references>
+  </metadata>
+  <files></files>
+</package>
