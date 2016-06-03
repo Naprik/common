@@ -184,15 +184,12 @@ Target "Run FxCop" (fun () ->
 )
 
 Target "CreatePackage" (fun _ ->
-    CleanDir packagingRoot
-
     let nugetContent = packagingRoot @@ @"beehive\lib\"
 
-    CleanDirs [packagingRoot; nugetContent]
+    CleanDirs [nugetContent]
 
     CopyFile nugetContent (libsOutputPath @@ "Beehive.Common.dll")
     CopyFile nugetContent (libsOutputPath @@ "Beehive.Common.pdb")
-
 
     NuGet (fun p ->
         {p with
@@ -202,7 +199,7 @@ Target "CreatePackage" (fun _ ->
             OutputPath = packagingRoot
             Summary = projectSummary
             Copyright = copyright
-            WorkingDir = nugetContent
+            WorkingDir = packagingRoot @@ @"beehive\"
             Version = version
             ReleaseNotes = toLines releaseNotes.Notes
             PublishUrl = nugetPublishUrl
